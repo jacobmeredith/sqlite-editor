@@ -1,0 +1,14 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "dynamicImport": true
+    },
+    "target": "es5",
+    "baseUrl": "."
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}
