@@ -2,10 +2,10 @@ import * as React from "react";
 
 import { ConnectionTile } from "../../elements/Connection/ConnectionTile";
 import { CreateConnectionTile } from "../../elements/Connection/CreateConnectionTile";
-import { trpc } from "../../utils/trpc";
+import { useAllConnections } from "../../api/connections";
 
 export const Load = () => {
-  const connections = trpc.useQuery(["connection.all"]);
+  const connections = useAllConnections();
 
   return (
     <div className="grid grid-cols-4 gap-8 p-8">

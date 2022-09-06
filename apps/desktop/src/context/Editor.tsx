@@ -1,38 +1,33 @@
 import * as React from "react";
 
 interface InitialContextState {
-  connectionId?: number;
-  connectionPath?: string;
-  tables?: string[];
   activeTable?: string;
   view?: string;
 }
 
 type Action =
-  | { type: "SET_CONNECTION_ID"; payload: number }
-  | { type: "SET_CONNECTION_PATH"; payload: string }
   | { type: "SET_VIEW"; payload: string }
-  | { type: "SET_TABLES"; payload: string[] };
+  | { type: "SET_ACTIVE_TABLE"; payload: string };
 
 function reducer(
   state: InitialContextState,
   action: Action
 ): InitialContextState {
+  console.log(action);
   switch (action.type) {
-    case "SET_CONNECTION_ID":
-      return { ...state, connectionId: action.payload };
-    case "SET_TABLES":
+    case "SET_ACTIVE_TABLE":
       return {
         ...state,
-        tables: action.payload,
-        activeTable: action.payload[0] ?? undefined,
+        activeTable: action.payload,
       };
     default:
       return state;
   }
 }
 
-const initialState: InitialContextState = {};
+const initialState: InitialContextState = {
+  view: "table",
+};
 
 const EditorContext = React.createContext<
   { state?: InitialContextState } & { dispatch?: React.Dispatch<Action> }
@@ -59,24 +54,14 @@ export const useEditorContext = () => {
 
   return {
     state,
-    setConnectionId: (id: number) => {
-      if (dispatch) {
-        dispatch({ type: "SET_CONNECTION_ID", payload: id });
-      }
-    },
-    setConnectionPath: (path: string) => {
-      if (dispatch) {
-        dispatch({ type: "SET_CONNECTION_PATH", payload: path });
-      }
-    },
     setView: (view: string) => {
       if (dispatch) {
         dispatch({ type: "SET_VIEW", payload: view });
       }
     },
-    setTables: (tables: string[]) => {
+    setActiveTable: (table: string) => {
       if (dispatch) {
-        dispatch({ type: "SET_TABLES", payload: tables });
+        dispatch({ type: "SET_ACTIVE_TABLE", payload: table });
       }
     },
   };

@@ -17,6 +17,7 @@
     "@trpc/react": "^9.27.2",
     "@trpc/server": "^9.27.2",
     "react": "^18.2.0",
+    "react-data-grid": "7.0.0-beta.16",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.2",
     "react-query": "3",

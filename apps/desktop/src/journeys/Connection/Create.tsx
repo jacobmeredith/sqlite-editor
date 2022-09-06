@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { FieldValues, useForm } from "react-hook-form";
 
 import { open } from "@tauri-apps/api/dialog";
-import { trpc } from "../../utils/trpc";
+import { useAddConnection } from "../../api/connections";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -17,16 +17,10 @@ const schema = yup
 
 export const Create = () => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     resolver: yupResolver(schema),
   });
-  const mutation = trpc.useMutation("connection.add");
+  const mutation = useAddConnection();
 
   const onSubmit = async (data: FieldValues) => {
     await mutation

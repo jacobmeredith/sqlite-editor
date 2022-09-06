@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { Create } from "./Connection/Create";
 import { Editor } from "./Editor";
-import { EditorContextProvider } from "../context/editor";
+import { EditorContextProvider } from "../context/Editor";
 import { Load } from "./Connection/Load";
 import { trpc } from "../utils/trpc";
 
@@ -21,20 +21,18 @@ export const Journeys: React.FC = () => {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Load />} />
-            <Route
-              path="/editor/:id"
-              element={
-                <EditorContextProvider>
-                  <Editor />
-                </EditorContextProvider>
-              }
-            />
-            <Route path="/connection/create" element={<Create />} />
-          </Routes>
-        </BrowserRouter>
+        <EditorContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Load />} />
+              <Route path="/editor/:id" element={<Outlet />}>
+                <Route path=":table" element={<Editor />} />
+                <Route index element={<Editor />} />
+              </Route>
+              <Route path="/connection/create" element={<Create />} />
+            </Routes>
+          </BrowserRouter>
+        </EditorContextProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );
